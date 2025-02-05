@@ -1,0 +1,18 @@
+_schema-version: "3.2"
+ID: applist
+version: 0.0.1
+modules:
+- name: applist-approuter
+  type: approuter.nodejs
+  path: applist-approuter
+  requires:
+  - name: applist_html_repo_runtime
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+resources:
+- name: applist_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
