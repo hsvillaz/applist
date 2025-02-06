@@ -8,7 +8,11 @@
             <IconTabBar >
                 <items>
                     <IconTabFilter text="{i18n>objectList}">
-                        <List items="{/Products}">
+                        <List items="{path : '/Products',
+                                      filters : [{
+                                        path : 'Brand',
+                                        operator : 'EQ',
+                                        value1 : 'Compaq'}]}">
                             <items>
                                 <ObjectListItem title="{Material} {Brand} {Model}"
                                                 number="{Price}"
@@ -22,7 +26,28 @@
                     </IconTabFilter>
 
                     <IconTabFilter text="{i18n>standardList}">
-                        <List items="{/Products}">
+                        <Select selectedKey="{/typeSelection}">
+                            <items>
+                                <core:Item key="None" text="{i18n>none}"/>
+                                <core:Item key="MultiSelect" text="{i18n>multiSelect}"/>
+                                <core:Item key="SingleSelect" text="{i18n>selectSingle}"/>
+                                <core:Item key="SingleSelectLeft" text="{i18n>singleSelectLeft}"/>
+                                <core:Item key="SingleSelectMaster" text="{i18n>singleSelectMaster}"/>
+                            </items>
+                        </Select>
+
+                        <Button text="{i18n>showSelectedItems}" press="onShowSelectedRows" class="sapUiSmallMarginBegin"/>
+
+                        <Button text="{i18n>deleteSelectedItems}" press="onDeleteSelectedRows" class="sapUiSmallMarginBegin"/>
+
+                        <List items="{path : '/Products',
+                                      sorter : {path : 'Brand',
+                                                descending : false,
+                                                group : true
+                                                },
+                                      groupHeaderFactory : '.getGroupHeader'}"
+                              mode="{/typeSelection}"
+                              id="standardList">
                             <items>
                                 <StandardListItem title="{Material} {Brand} {Model}"
                                                   description="{Weight}"
@@ -33,7 +58,7 @@
                     </IconTabFilter>
 
                     <IconTabFilter text="{i18n>inputList}">
-                        <List items="{/Products}">
+                        <List items="{/Products}" mode="Delete" delete="onDeleteRow">
                             <items>
                                 <InputListItem label="{Brand}">
                                     <Select items="{Properties}">                                   
@@ -45,9 +70,30 @@
                     </IconTabFilter>
 
                     <IconTabFilter text="{i18n>notificationList}">
+                        <List items="{/News}">
+                            <items>
+                                <NotificationListItem title="{Title}"
+                                                      description="{Description}"
+                                                      unread="{Unread}"
+                                                      authorName="{Author}"
+                                                      priority="{Priority}"
+                                                      showCloseButton="{ShowCloseButton}"/>
+                            </items>
+                        </List>
                     </IconTabFilter>
 
                     <IconTabFilter text="{i18n>customList}">
+                        <List items="{/News}">
+                            <items>
+                                <CustomListItem >
+                                    <layout:Grid defaultSpan="XL3 L3 M6 S12">
+                                        <Text text="{Title}"/>
+                                        <Text text="{Author}"/>
+                                        <Text text="{Description}"/>
+                                    </layout:Grid>
+                                </CustomListItem>
+                            </items>
+                        </List>
                     </IconTabFilter>
                 </items>
             </IconTabBar>
